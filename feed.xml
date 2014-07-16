@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nandotorres.com</title>
-    <description>Coletânea de textos e tutoriais sobre Arquitetura Web e Cloud Computing. De Angular a Azure.</description>
-    <link>http://yourdomain.com/</link>
-    <atom:link href="http://yourdomain.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 15 Jul 2014 20:47:06 -0300</pubDate>
-    <lastBuildDate>Tue, 15 Jul 2014 20:47:06 -0300</lastBuildDate>
+    <description>Livro de receitas para desenvolvedores e arquitetos Web. No menu: HTML5, Javascript, CSS, ASP.Net MVC, Ruby on Rails, e infraestrutura nas nuvens.</description>
+    <link>http://nandotorres.com/</link>
+    <atom:link href="http://nandotorres.com/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Wed, 16 Jul 2014 19:35:03 -0300</pubDate>
+    <lastBuildDate>Wed, 16 Jul 2014 19:35:03 -0300</lastBuildDate>
     <generator>Jekyll v2.1.0</generator>
     
       <item>
@@ -35,11 +35,11 @@ To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; direc
 &lt;p&gt;teste and teste2&lt;/p&gt;
 
 &lt;p&gt;… which is shown in the screenshot below:
-http://yourdomain.com   &lt;/p&gt;
+http://nandotorres.com   &lt;/p&gt;
 </description>
         <pubDate>Tue, 01 Jul 2014 16:42:46 -0300</pubDate>
-        <link>http://yourdomain.com/jekyll/update/2014/07/01/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://yourdomain.com/jekyll/update/2014/07/01/welcome-to-jekyll/</guid>
+        <link>http://nandotorres.com/jekyll/update/2014/07/01/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">http://nandotorres.com/jekyll/update/2014/07/01/welcome-to-jekyll/</guid>
         
         <category>teste</category>
         
