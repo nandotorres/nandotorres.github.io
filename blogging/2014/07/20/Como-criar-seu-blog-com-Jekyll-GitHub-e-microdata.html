@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Gerenciando seu blog com Jekyll, GitHub e microdata</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Um guia rápido para ajudá-lo a manter seu blog com Jekyll e hospedá-lo no GitHub. Além disso, veremos como deixá-lo mais amigável para os mecanismos de buscas, utilizando microdatas em seu conteúdo.">
+    <meta name="google-site-verification" content="JpzAtWuWRhjtKSQ5c8pT1Zh-DBL9QrOrQtKf3UVLneo" />
+    <link rel="canonical" href="http://nandotorres.com/blogging/2014/07/20/Como-criar-seu-blog-com-Jekyll-GitHub-e-microdata.html">
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
+    <!-- Custom CSS -->
+		<link rel="stylesheet" href="/css/semantic.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/">nandotorres.com</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+				<!-- 
+        
+          <a class="page-link" href="/about/">About</a>
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          <a class="page-link" href="/categories/blogging/index.html">blogging</a>
+        
+					-->
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header" itemscope itemtype="http://schema.org/Article">
+    <h1 itemprop="name">Gerenciando seu blog com Jekyll, GitHub e microdata</h1>
+    <p class="meta">
+	    <span itemprop="dateCreated"><i class="time icon orange"></i>20-07-2014 </span>
+			<span itemprop="keywords"><i class="tags icon orange"></i><a href="/tag/jekyll" rel="tag">jekyll</a>, <a href="/tag/microdata" rel="tag">microdata</a>, <a href="/tag/github%20pages" rel="tag">github pages</a></span>
+			<span itemprop="author"><i class="google plus sign icon orange"></i><a href="https://plus.google.com/113713318428723466993?rel=author">nandotorres</a></span>
+		</p>
+  </header>
+
+  <article class="post-content" itemprop="text">
+    <p>Se você quer começar a utilizar <a href="http://jekyllrb.com">Jekyll</a>, ou mesmo se você já usa, mas quer automatizar tarefas como criação de textos e deploy no <a href="http://pages.github.com">GitHub pages</a>, este post pode ser útil para você.</p>
+
+<div class="ui segment orange">
+	<i class="info icon orange"></i> É assumido que você já tenha o Jekyll instalado em seu computador, assim com uma conta gratuita no GitHub. Caso você precise instalar e configurar o git em seu computador, <a href="https://help.github.com/articles/set-up-git#platform-all" target="_resources">siga esses passos</a> antes de continuar.
+</div>
+
+<h2>Versionando seu blog jekyll com GitHub</h2>
+
+<p>Suponha que tenha criado seu novo blog com jekyll: </p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>jekyll new meublog
+<span class="nv">$ </span><span class="nb">cd </span>meublog <span class="o">&amp;&amp;</span> ls -la
+drwxr-xr-x  <span class="m">12</span> fernando  staff   <span class="m">408</span> Jul <span class="m">20</span> 20:10 .
+drwxrwxr-x  <span class="m">32</span> root      staff  <span class="m">1088</span> Jul <span class="m">20</span> 19:59 ..
+-rw-r--r--   <span class="m">1</span> fernando  staff     <span class="m">5</span> Jul <span class="m">20</span> 19:59 .gitignore
+-rw-r--r--   <span class="m">1</span> fernando  staff   <span class="m">435</span> Jul <span class="m">20</span> 19:59 _config.yml
+drwxr-xr-x   <span class="m">5</span> fernando  staff   <span class="m">170</span> Jul <span class="m">20</span> 19:59 _includes
+drwxr-xr-x   <span class="m">5</span> fernando  staff   <span class="m">170</span> Jul <span class="m">20</span> 19:59 _layouts
+drwxr-xr-x   <span class="m">3</span> fernando  staff   <span class="m">102</span> Jul <span class="m">20</span> 19:59 _posts
+-rw-r--r--   <span class="m">1</span> fernando  staff   <span class="m">470</span> Jul <span class="m">20</span> 19:59 about.md
+drwxr-xr-x   <span class="m">3</span> fernando  staff   <span class="m">102</span> Jul <span class="m">20</span> 19:59 css
+-rw-r--r--   <span class="m">1</span> fernando  staff  <span class="m">1292</span> Jul <span class="m">20</span> 19:59 feed.xml
+-rw-r--r--   <span class="m">1</span> fernando  staff   <span class="m">451</span> Jul <span class="m">20</span> 19:59 index.html</code></pre></div>
+
+<p>Agora você está pronto para começar a blogar! O primeiro passo é alterar o arquivo <code>_config.yml</code> e definir as informações do seu blog, como <code>titulo</code>, <code>descrição</code> e endereços de suas redes sociais no <code>twitter</code> e <code>github</code>. Nesse ponto já se torna interessante começar a versionar o código fonte do seu blog. Mais ainda, é hora de enviá-lo para um repositório para manter seu código a salvo.</p>
+
+<p>No GitHub, crie um novo repositório para o <strong>código fonte</strong> do seu blog. Você pode querer manter seu código fonte em um repositório privado caso não queira compartilhar seus temas ou plugins customizados com a comunidade do GitHub. <i class="icon frown orange"></i></p>
+
+<div class="ui segment orange">
+	<i class="info icon orange"></i> Nesse repositório manteremos os arquivos de configuração, templates e arquivos de posts. O Jekyll irá compilar seu site em um diretório <code>_site</code> mas ele não será versionado pois por padrão o Jekyll cria o arquivo <code>.gitignore</code> contendo uma instrução para manter este diretório fora do controle de versão. Esse diretório será mantido em outro repositório.
+</div>
+
+<p>Supondo que criamos o repositório <code>meublog</code> no GitHub, teremos então o endereço git deste repositório em <code>https://github.com/suacontanogithub/meublog.git</code>.</p>
+
+<p>De volta ao seu computador, no diretório raiz do seu blog (<code>meublog/</code>) faça o commit do código atual e faça também o primeiro push para o GitHub.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git init
+git add .
+git commit -m <span class="s2">&quot;Configurando o config.yml&quot;</span>
+git remote add origin https://github.com/suacontanogithub/meublog.git
+git push -u origin master</code></pre></div>
+
+<p>Pronto! Agora o código fonte do seu blog ou site está versionando. A cada conjunto de alterações que fizer, você deve enviar as alterações para o GitHub.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git commit -m <span class="s2">&quot;Alterando o sidebar do meu novo tema&quot;</span>
+git push -u origin master</code></pre></div>
+
+<h2>Gerando seu blog e fazendo deploy para GitHub Pages</h2>
+
+<p>O GitHub oferece um serviço gratuito de hospedagem de conteúdo estático (HTML, CSS, Javascript, imagens) para seus usuários chamado <a href="http://pages.github.com">GitHub Pages</a>. Basta ter uma conta no GitHub e você está pronto para utilizar.</p>
+
+<p>Acesse sua conta no GitHub e crie um novo repositório, obrigatoriamente com o nome <code>suaconta.github.io</code> - por exemplo, no meu caso criei um repositório chamado <code>nandotorres.github.io</code>.</p>
+
+<p>Volte ao diretório raiz do seu blog e gere seu site com o comando <code>jekyll build</code>: </p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>jekyll build
+Configuration file: /app/meublog/_config.yml
+            Source: /app/meublog
+       Destination: /app/meublog/_site
+      Generating... 
+                    <span class="k">done</span>.</code></pre></div>
+
+<p>Após o primeiro build, seu site é gerado no subdiretório <code>_site</code>. Vamos versioná-lo, mas ao contrário do diretório do código fonte, que versionamos no repositório <code>meublog</code>, vamos versionar seu site no repositório <code>suaconta.github.io</code>.</p>
+
+<p>Mova para o diretório <code>_site</code> e inicie o repositório:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">cd </span>_site   <span class="c"># não se esqueça de se mover para dentro do diretório _site</span>
+<span class="nv">$ </span>git init
+<span class="nv">$ </span>git add .
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;Bem vindos ao meu blog&quot;</span>
+<span class="nv">$ </span>git remote add origin https://github.com/suacontanogithub/suacontanogithub.github.io.git
+<span class="nv">$ </span>git push -u origin master</code></pre></div>
+
+<p>Acesse seu site e veja se tudo está no ar: <code>http://suacontanogithub.github.io</code>. Agora é hora de deixar tudo mais organizado.</p>
+
+<h2>Script para gerenciar seu site Jekyll com GitHub e GitPages</h2>
+
+<p>A cada vez que você escrever um post ou fizer alterações no seu blog você deve repetir os seguintes passos:</p>
+
+<ol>
+	<li>Adicionar os novos arquivos e commitar o codigo fonte do seu blog</li>
+	<li>Fazer push do seu código para o repositório</li>
+	<li>Gerar seu site <code>jekyll build</code></li>
+	<li>Entrar no diretório <code>_site</code>, adicionar os novos arquivos gerados e commitar seu site</li>
+	<li>Enviar a nova estrutura do seu site para o repositório com nome da sua github page</li>
+</ol>
+
+<p>Para automatizar essa tarefa você pode escrever um script <code>shell</code> ou <code>batch</code> ou usar algum pronto. Se optar pela segunda opção, disponibilizo um script bash (para Linux e Mac OSX por enquanto) que realiza essa tarefa.</p>
+
+<p>Faça o <a href="https://github.com/nandotorres/jekyll_commit">download do script de administração do Jekyll com GitHub Pages</a> e siga as instruções de instalação e uso.</p>
+
+<h2>Script para criar novos posts no Jekyll</h2>
+
+<p>Para automatizar a tarefa de criar novos posts eu utilizo um <a href="http://joshbranchaud.com/blog/2013/01/11/Jekyll-Post.html">script em Python</a> disponibilizado por <a href="http://joshbranchaud.com/blog/">Josh Branchaud</a> em seu blog.</p>
+
+<p>Basta baixar o arquivo e salvá-lo em seu diretório <code>home</code> (<code>~/jekyll-post</code>), alterar a permissão do arquivo <code>chmod 755 ~/jekyll-post</code>, inserir um alias para ele em seu <code>~/.bash_profile</code>: <code>alias jekyll-post="~/jekyll-post"</code> salvar e atualizar sua sessão: <code>source ~/.bash_profile</code>.</p>
+
+<p>Pronto! Agora é só ir para o diretório raiz do seu site e executar o comando:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>jekyll_post <span class="s2">&quot;Como não desenvolver seu app em HTML5&quot;</span> -D _posts
+New Jekyll post <span class="s2">&quot;Como não desenvolver seu app em HTML5&quot;</span> has been created -- _posts/2014-07-21-Como-no-desenvolver-seu-app-em-HTML5.md</code></pre></div>
+
+<p>Abra o arquivo <code>_posts/2014-07-21-Como-no-desenvolver-seu-app-em-HTML5.md</code> e você está pronto para inserir conteúdo no template gerado:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">---
+layout: post
+title: Como não desenvolver seu app em HTML5
+summary:
+status: draft
+hn-discussion:
+category:
+---</code></pre></div>
+
+<h2>Finalizando</h2>
+
+<p>Com essas configurações em ordem a tarefa de blogar com Jekyll fica muito mais fácil. Essas foram as primeiras necessidades que tive assim que comecei a utilizar essa preciosa ferramenta. A medida que forem surgindo mais avanços irei compartilhar as dicas aqui. Até lá!</p>
+
+
+  </article>
+
+</div>
+
+<div id="disqus_thread"></div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrap">
+
+    <h2 class="footer-heading">nandotorres.com</h2>
+
+    <div class="footer-col-1 column">
+      <ul>
+        <li>nandotorres.com</li>
+        <li><a href="mailto:nandotorres@gmail.com">nandotorres@gmail.com</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col-2 column">
+      <ul>
+        <li>
+          <a href="https://github.com/nandotorres">
+            <span class="icon github">
+              <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#C2C2C2" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            <span class="username">nandotorres</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/nandotorres77">
+            <span class="icon twitter">
+              <svg version="1.1" class="twitter-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill="#C2C2C2" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27
+                c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767
+                c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206
+                C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271
+                c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469
+                c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+            <span class="username">nandotorres77</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-col-3 column">
+      <p class="text">Textos e tutoriais sobre Javascript, ASP.Net MVC, Ruby on Rails, Cloud e DevOps.</p>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </body>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52903781-1', 'auto');
+	ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'nandotorrescom'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+</html>

@@ -5,9 +5,144 @@
     <description>Textos e tutoriais sobre Javascript, ASP.Net MVC, Ruby on Rails, Cloud e DevOps.</description>
     <link>http://nandotorres.com/</link>
     <atom:link href="http://nandotorres.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 20 Jul 2014 18:48:06 -0300</pubDate>
-    <lastBuildDate>Sun, 20 Jul 2014 18:48:06 -0300</lastBuildDate>
+    <pubDate>Mon, 21 Jul 2014 19:34:21 -0300</pubDate>
+    <lastBuildDate>Mon, 21 Jul 2014 19:34:21 -0300</lastBuildDate>
     <generator>Jekyll v2.1.0</generator>
+    
+      <item>
+        <title>Gerenciando seu blog com Jekyll, GitHub e microdata</title>
+        <description>&lt;p&gt;Se você quer começar a utilizar &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt;, ou mesmo se você já usa, mas quer automatizar tarefas como criação de textos e deploy no &lt;a href=&quot;http://pages.github.com&quot;&gt;GitHub pages&lt;/a&gt;, este post pode ser útil para você.&lt;/p&gt;
+
+&lt;div class=&quot;ui segment orange&quot;&gt;
+	&lt;i class=&quot;info icon orange&quot;&gt;&lt;/i&gt; É assumido que você já tenha o Jekyll instalado em seu computador, assim com uma conta gratuita no GitHub. Caso você precise instalar e configurar o git em seu computador, &lt;a href=&quot;https://help.github.com/articles/set-up-git#platform-all&quot; target=&quot;_resources&quot;&gt;siga esses passos&lt;/a&gt; antes de continuar.
+&lt;/div&gt;
+
+&lt;h2&gt;Versionando seu blog jekyll com GitHub&lt;/h2&gt;
+
+&lt;p&gt;Suponha que tenha criado seu novo blog com jekyll: &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jekyll new meublog
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;meublog &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ls -la
+drwxr-xr-x  &lt;span class=&quot;m&quot;&gt;12&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;408&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 20:10 .
+drwxrwxr-x  &lt;span class=&quot;m&quot;&gt;32&lt;/span&gt; root      staff  &lt;span class=&quot;m&quot;&gt;1088&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 ..
+-rw-r--r--   &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; fernando  staff     &lt;span class=&quot;m&quot;&gt;5&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 .gitignore
+-rw-r--r--   &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;435&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 _config.yml
+drwxr-xr-x   &lt;span class=&quot;m&quot;&gt;5&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;170&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 _includes
+drwxr-xr-x   &lt;span class=&quot;m&quot;&gt;5&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;170&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 _layouts
+drwxr-xr-x   &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;102&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 _posts
+-rw-r--r--   &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;470&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 about.md
+drwxr-xr-x   &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;102&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 css
+-rw-r--r--   &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; fernando  staff  &lt;span class=&quot;m&quot;&gt;1292&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 feed.xml
+-rw-r--r--   &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; fernando  staff   &lt;span class=&quot;m&quot;&gt;451&lt;/span&gt; Jul &lt;span class=&quot;m&quot;&gt;20&lt;/span&gt; 19:59 index.html&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Agora você está pronto para começar a blogar! O primeiro passo é alterar o arquivo &lt;code&gt;_config.yml&lt;/code&gt; e definir as informações do seu blog, como &lt;code&gt;titulo&lt;/code&gt;, &lt;code&gt;descrição&lt;/code&gt; e endereços de suas redes sociais no &lt;code&gt;twitter&lt;/code&gt; e &lt;code&gt;github&lt;/code&gt;. Nesse ponto já se torna interessante começar a versionar o código fonte do seu blog. Mais ainda, é hora de enviá-lo para um repositório para manter seu código a salvo.&lt;/p&gt;
+
+&lt;p&gt;No GitHub, crie um novo repositório para o &lt;strong&gt;código fonte&lt;/strong&gt; do seu blog. Você pode querer manter seu código fonte em um repositório privado caso não queira compartilhar seus temas ou plugins customizados com a comunidade do GitHub. &lt;i class=&quot;icon frown orange&quot;&gt;&lt;/i&gt;&lt;/p&gt;
+
+&lt;div class=&quot;ui segment orange&quot;&gt;
+	&lt;i class=&quot;info icon orange&quot;&gt;&lt;/i&gt; Nesse repositório manteremos os arquivos de configuração, templates e arquivos de posts. O Jekyll irá compilar seu site em um diretório &lt;code&gt;_site&lt;/code&gt; mas ele não será versionado pois por padrão o Jekyll cria o arquivo &lt;code&gt;.gitignore&lt;/code&gt; contendo uma instrução para manter este diretório fora do controle de versão. Esse diretório será mantido em outro repositório.
+&lt;/div&gt;
+
+&lt;p&gt;Supondo que criamos o repositório &lt;code&gt;meublog&lt;/code&gt; no GitHub, teremos então o endereço git deste repositório em &lt;code&gt;https://github.com/suacontanogithub/meublog.git&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;De volta ao seu computador, no diretório raiz do seu blog (&lt;code&gt;meublog/&lt;/code&gt;) faça o commit do código atual e faça também o primeiro push para o GitHub.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git init
+git add .
+git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Configurando o config.yml&amp;quot;&lt;/span&gt;
+git remote add origin https://github.com/suacontanogithub/meublog.git
+git push -u origin master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pronto! Agora o código fonte do seu blog ou site está versionando. A cada conjunto de alterações que fizer, você deve enviar as alterações para o GitHub.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Alterando o sidebar do meu novo tema&amp;quot;&lt;/span&gt;
+git push -u origin master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Gerando seu blog e fazendo deploy para GitHub Pages&lt;/h2&gt;
+
+&lt;p&gt;O GitHub oferece um serviço gratuito de hospedagem de conteúdo estático (HTML, CSS, Javascript, imagens) para seus usuários chamado &lt;a href=&quot;http://pages.github.com&quot;&gt;GitHub Pages&lt;/a&gt;. Basta ter uma conta no GitHub e você está pronto para utilizar.&lt;/p&gt;
+
+&lt;p&gt;Acesse sua conta no GitHub e crie um novo repositório, obrigatoriamente com o nome &lt;code&gt;suaconta.github.io&lt;/code&gt; - por exemplo, no meu caso criei um repositório chamado &lt;code&gt;nandotorres.github.io&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Volte ao diretório raiz do seu blog e gere seu site com o comando &lt;code&gt;jekyll build&lt;/code&gt;: &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jekyll build
+Configuration file: /app/meublog/_config.yml
+            Source: /app/meublog
+       Destination: /app/meublog/_site
+      Generating... 
+                    &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Após o primeiro build, seu site é gerado no subdiretório &lt;code&gt;_site&lt;/code&gt;. Vamos versioná-lo, mas ao contrário do diretório do código fonte, que versionamos no repositório &lt;code&gt;meublog&lt;/code&gt;, vamos versionar seu site no repositório &lt;code&gt;suaconta.github.io&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Mova para o diretório &lt;code&gt;_site&lt;/code&gt; e inicie o repositório:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;_site   &lt;span class=&quot;c&quot;&gt;# não se esqueça de se mover para dentro do diretório _site&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git init
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git add .
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&amp;quot;Bem vindos ao meu blog&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git remote add origin https://github.com/suacontanogithub/suacontanogithub.github.io.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git push -u origin master&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Acesse seu site e veja se tudo está no ar: &lt;code&gt;http://suacontanogithub.github.io&lt;/code&gt;. Agora é hora de deixar tudo mais organizado.&lt;/p&gt;
+
+&lt;h2&gt;Script para gerenciar seu site Jekyll com GitHub e GitPages&lt;/h2&gt;
+
+&lt;p&gt;A cada vez que você escrever um post ou fizer alterações no seu blog você deve repetir os seguintes passos:&lt;/p&gt;
+
+&lt;ol&gt;
+	&lt;li&gt;Adicionar os novos arquivos e commitar o codigo fonte do seu blog&lt;/li&gt;
+	&lt;li&gt;Fazer push do seu código para o repositório&lt;/li&gt;
+	&lt;li&gt;Gerar seu site &lt;code&gt;jekyll build&lt;/code&gt;&lt;/li&gt;
+	&lt;li&gt;Entrar no diretório &lt;code&gt;_site&lt;/code&gt;, adicionar os novos arquivos gerados e commitar seu site&lt;/li&gt;
+	&lt;li&gt;Enviar a nova estrutura do seu site para o repositório com nome da sua github page&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Para automatizar essa tarefa você pode escrever um script &lt;code&gt;shell&lt;/code&gt; ou &lt;code&gt;batch&lt;/code&gt; ou usar algum pronto. Se optar pela segunda opção, disponibilizo um script bash (para Linux e Mac OSX por enquanto) que realiza essa tarefa.&lt;/p&gt;
+
+&lt;p&gt;Faça o &lt;a href=&quot;https://github.com/nandotorres/jekyll_commit&quot;&gt;download do script de administração do Jekyll com GitHub Pages&lt;/a&gt; e siga as instruções de instalação e uso.&lt;/p&gt;
+
+&lt;h2&gt;Script para criar novos posts no Jekyll&lt;/h2&gt;
+
+&lt;p&gt;Para automatizar a tarefa de criar novos posts eu utilizo um &lt;a href=&quot;http://joshbranchaud.com/blog/2013/01/11/Jekyll-Post.html&quot;&gt;script em Python&lt;/a&gt; disponibilizado por &lt;a href=&quot;http://joshbranchaud.com/blog/&quot;&gt;Josh Branchaud&lt;/a&gt; em seu blog.&lt;/p&gt;
+
+&lt;p&gt;Basta baixar o arquivo e salvá-lo em seu diretório &lt;code&gt;home&lt;/code&gt; (&lt;code&gt;~/jekyll-post&lt;/code&gt;), alterar a permissão do arquivo &lt;code&gt;chmod 755 ~/jekyll-post&lt;/code&gt;, inserir um alias para ele em seu &lt;code&gt;~/.bash_profile&lt;/code&gt;: &lt;code&gt;alias jekyll-post=&quot;~/jekyll-post&quot;&lt;/code&gt; salvar e atualizar sua sessão: &lt;code&gt;source ~/.bash_profile&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Pronto! Agora é só ir para o diretório raiz do seu site e executar o comando:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;jekyll_post &lt;span class=&quot;s2&quot;&gt;&amp;quot;Como não desenvolver seu app em HTML5&amp;quot;&lt;/span&gt; -D _posts
+New Jekyll post &lt;span class=&quot;s2&quot;&gt;&amp;quot;Como não desenvolver seu app em HTML5&amp;quot;&lt;/span&gt; has been created -- _posts/2014-07-21-Como-no-desenvolver-seu-app-em-HTML5.md&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Abra o arquivo &lt;code&gt;_posts/2014-07-21-Como-no-desenvolver-seu-app-em-HTML5.md&lt;/code&gt; e você está pronto para inserir conteúdo no template gerado:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;---
+layout: post
+title: Como não desenvolver seu app em HTML5
+summary:
+status: draft
+hn-discussion:
+category:
+---&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;Finalizando&lt;/h2&gt;
+
+&lt;p&gt;Com essas configurações em ordem a tarefa de blogar com Jekyll fica muito mais fácil. Essas foram as primeiras necessidades que tive assim que comecei a utilizar essa preciosa ferramenta. A medida que forem surgindo mais avanços irei compartilhar as dicas aqui. Até lá!&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 20 Jul 2014 00:00:00 -0300</pubDate>
+        <link>http://nandotorres.com/blogging/2014/07/20/Como-criar-seu-blog-com-Jekyll-GitHub-e-microdata.html</link>
+        <guid isPermaLink="true">http://nandotorres.com/blogging/2014/07/20/Como-criar-seu-blog-com-Jekyll-GitHub-e-microdata.html</guid>
+        
+        <category>jekyll</category>
+        
+        <category>microdata</category>
+        
+        <category>github pages</category>
+        
+        
+        <category>blogging</category>
+        
+      </item>
     
   </channel>
 </rss>
