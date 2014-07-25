@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://nandotorres.com/</loc>
+  <lastmod>2014-07-22T23:22:01+00:00</lastmod>
+</url>
+<url>
+  <loc>http://nandotorres.com/tag/jekyll/</loc>
+  <lastmod>2014-07-22T23:22:01+00:00</lastmod>
+</url>
+<url>
+  <loc>http://nandotorres.com/tag/microdata/</loc>
+  <lastmod>2014-07-22T23:22:01+00:00</lastmod>
+</url>
+<url>
+  <loc>http://nandotorres.com/tag/github%20pages/</loc>
+  <lastmod>2014-07-22T23:22:01+00:00</lastmod>
+</url>
+<url>
+  <loc>http://nandotorres.com/blogging/2014/07/20/Como-criar-seu-blog-com-Jekyll-GitHub-e-microdata.html</loc>
+  <lastmod>2014-07-22T23:22:01+00:00</lastmod>
+</url>
+</urlset>
