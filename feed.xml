@@ -5,9 +5,34 @@
     <description>Textos e tutoriais sobre Javascript, ASP.Net MVC, Ruby on Rails, Cloud e DevOps.</description>
     <link>http://nandotorres.com/</link>
     <atom:link href="http://nandotorres.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 24 Jul 2014 21:09:41 -0300</pubDate>
-    <lastBuildDate>Thu, 24 Jul 2014 21:09:41 -0300</lastBuildDate>
+    <pubDate>Tue, 29 Jul 2014 14:28:16 -0300</pubDate>
+    <lastBuildDate>Tue, 29 Jul 2014 14:28:16 -0300</lastBuildDate>
     <generator>Jekyll v2.1.0</generator>
+    
+      <item>
+        <title>Livro gratuito&amp;#58; Building Cloud Apps with Microsoft Azure</title>
+        <description>&lt;p&gt;A Microsoft Press acaba de anunciar a disponibilização gratuita para download do livro &lt;a href=&quot;http://blogs.msdn.com/b/microsoft_press/archive/2014/07/23/free-ebook-building-cloud-apps-with-microsoft-azure.aspx&quot;&gt;Building Cloud Apps with Microsoft Azure&lt;/a&gt; no blog do &lt;em&gt;msdn&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Entre os assuntos cobertos pelo livro estão melhores práticas para &lt;em&gt;DevOps&lt;/em&gt;, modelos de armazenamento de dados, soluções para alta disponibilidade e outros temas.&lt;/p&gt;
+
+&lt;p&gt;O livro foi escrito por Scott Guthrie, Mark Simms, Tom Dykstra, Rick Anderson, e Mike Wasson e está disponível nos formatos &lt;a href=&quot;http://aka.ms/CloudApps_PDF&quot;&gt;PDF&lt;/a&gt; (6.35 MB), &lt;a href=&quot;http://aka.ms/CloudApps_EPUB&quot;&gt;EPUB&lt;/a&gt; (22.7 MB), e &lt;a href=&quot;http://aka.ms/CloudApps_MOBI&quot;&gt;MOBI&lt;/a&gt; (12.3 MB).&lt;/p&gt;
+
+&lt;p&gt;Boa leitura!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 29 Jul 2014 00:00:00 -0300</pubDate>
+        <link>http://nandotorres.com/ebooks/2014/07/29/Livro-gratuito-Building-Cloud-Apps-with-Microsoft-Azure.html</link>
+        <guid isPermaLink="true">http://nandotorres.com/ebooks/2014/07/29/Livro-gratuito-Building-Cloud-Apps-with-Microsoft-Azure.html</guid>
+        
+        <category>Microsoft Azure</category>
+        
+        <category>eBook</category>
+        
+        <category>ASP.NET</category>
+        
+        
+        <category>ebooks</category>
+        
+      </item>
     
       <item>
         <title>Gerenciando seu blog com Jekyll, GitHub e microdata</title>
