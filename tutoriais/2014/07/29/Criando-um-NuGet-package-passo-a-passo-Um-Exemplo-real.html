@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+			
+				Criando um NuGet package passo-a-passo. Um exemplo real
+			
+		</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veja os passos para se criar um <em>NuGet Package</em> através de um exemplo real. Veremos como criar um instalador do framework <em>Semantic-UI</em> em uma aplicação ASP.NET MVC.">
+    <meta name="google-site-verification" content="JpzAtWuWRhjtKSQ5c8pT1Zh-DBL9QrOrQtKf3UVLneo" />
+		<meta property="og:locale" content="pt_BR"> 
+		<meta property="og:url" content="http://nandotorres.com/tutoriais/2014/07/29/Criando-um-NuGet-package-passo-a-passo-Um-Exemplo-real.html"> 
+		<meta property="og:title" content="Criando um NuGet package passo-a-passo. Um exemplo real">
+		<meta property="og:site_name" content="nandotorres.com"> 
+		<meta property="og:description" content="Veja os passos para se criar um <em>NuGet Package</em> através de um exemplo real. Veremos como criar um instalador do framework <em>Semantic-UI</em> em uma aplicação ASP.NET MVC.">
+ 
+    
+			<meta property="og:type" content="article">
+			<meta property="article:author" content="Fernando F. Torres">
+			<meta property="article:section" content="Tutoriais">
+			<meta property="article:tag" content="ASP.NETNuGetSemantic-UI">
+			<meta property="article:published_time" content="2014-07-29">
+		
+
+    <link rel="canonical" href="http://nandotorres.com/tutoriais/2014/07/29/Criando-um-NuGet-package-passo-a-passo-Um-Exemplo-real.html">
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700' rel='stylesheet' type='text/css'>
+    <!-- Custom CSS -->
+		<link rel="stylesheet" href="/css/semantic.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+
+    <body>
+
+    <header class="site-header">
+
+  <div class="wrap">
+
+    <a class="site-title" href="/">nandotorres.com</a>
+
+    <nav class="site-nav">
+      <a href="#" class="menu-icon">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           viewBox="0 0 18 15" enable-background="new 0 0 18 15" xml:space="preserve">
+          <path fill="#505050" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0
+            h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+          <path fill="#505050" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484
+            h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+          <path fill="#505050" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0
+            c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+        </svg>
+      </a>
+      <div class="trigger">
+				<!-- 
+        
+          <a class="page-link" href="/about/">About</a>
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          <a class="page-link" href="/categories/blogging/index.html">blogging</a>
+        
+          <a class="page-link" href="/categories/tutoriais/index.html">tutoriais</a>
+        
+          <a class="page-link" href="/categories/ebooks/index.html">ebooks</a>
+        
+					-->
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      <div class="post">
+
+  <header class="post-header" itemscope itemtype="http://schema.org/Article">
+    <h1 itemprop="name">Criando um NuGet package passo-a-passo. Um exemplo real</h1>
+    <p class="meta">
+	    <span itemprop="dateCreated"><i class="time icon orange"></i>29-07-2014 </span>
+			<span itemprop="keywords"><i class="tags icon orange"></i><a href="/tag/ASP.NET" rel="tag">ASP.NET</a>, <a href="/tag/NuGet" rel="tag">NuGet</a>, <a href="/tag/Semantic-UI" rel="tag">Semantic-UI</a></span>
+			<span itemprop="author"><i class="google plus sign icon orange"></i><a href="https://plus.google.com/113713318428723466993?rel=author">nandotorres</a></span>
+		</p>
+  </header>
+
+  <article class="post-content" itemprop="text">
+    <p>Neste tutorial irei demonstrar como criar um NuGet Package para automatizar a instalação do framework <a href="http://semantic-ui.com">Semantic-UI</a> em uma aplicação ASP.NET MVC 4.</p>
+
+<blockquote>
+  <p>Semantic-UI é um framework similar ao <a href="http://getbootstrap.com">Bootstrap</a>, ao <a href="http://foundation.zurb.com/">Zurb Foundation</a> e <a href="http://usablica.github.io/front-end-frameworks/compare.html">tantos outros</a>. Eu já utilizei Bootstrap em meus projetos mas ultimamente tenho utilizado Semanti-UI.</p>
+</blockquote>
+
+<h2>Adicionando Semantic-UI manualmente</h2>
+
+<p>Vamos começar mostrando como adicionar o Semantic-UI a um projeto ASP.NET MVC 4 de forma manual. Em seguida iremos automatizar esse processo.</p>
+
+<p><i class="checkmark orange icon"></i> No Visual Studio, crie um novo projeto ASP.NET MVC Web Application.</p>
+
+<p><img src="/img/tutorial-nuget/VS-basic-asp.net.mvc.web.app.png" class="ui image" alt="Visual Studio 2012 blank ASP.NET MVC 4 Web Application" /></p>
+
+<p><i class="checkmark orange icon"></i> Faça o <a href="http://semantic-ui.com/build/semantic.zip">download do Semantic-UI</a> e extraia em uma pasta. Em seguida, examine o conteúdo da pasta <code>Packaged</code> como abaixo:</p>
+
+<p><img src="/img/tutorial-nuget/SemanticUI.packaged.folder.png" class="ui image" alt="SemanticUI: Packaged folder" /></p>
+
+<p><i class="checkmark orange icon"></i> Copie o arquivo <code>packaged/css/semantic.css</code> e cole no seu projeto ASP.NET MVC 4, no folder <code>˜/Content</code>.</p>
+
+<p><i class="checkmark orange icon"></i> Copie o arquivo <code>packaged/javascript/semantic.js</code> e cole no seu projeto ASP.NET MVC 4, no folder <code>˜/Scripts</code>.</p>
+
+<p><i class="checkmark orange icon"></i> Copie o folder <code>packaged/fonts</code> e cole na raiz de seu projeto ASP.NET MVC 4, no mesmo nível dos folders <code>˜/Content</code> e <code>˜/Scripts</code>.</p>
+
+<p>A estrutura do seu projeto ficará dessa forma:</p>
+
+<p><img src="/img/tutorial-nuget/VS-solution-explorer-1.png" alt="Visual Studio Solution Explorer com Semantic UI" class="ui image" /></p>
+
+<blockquote>
+  <p>Para simplificar a imagem, eu exclui alguns arquivos CSS e Javascripts dos diretórios. Exclua cuidadosamente os arquivos que não for utilizar em seu projeto.</p>
+</blockquote>
+
+<p><i class="checkmark orange icon"></i> Altere o <code>~/App_start/BundleConfig.cs</code> e inclua a referência ao <code>semantic.js</code> e <code>semantic.css</code>.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">namespace</span> <span class="nn">MvcApplication1</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">class</span> <span class="nc">BundleConfig</span>
+  <span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">RegisterBundles</span><span class="p">(</span><span class="n">BundleCollection</span> <span class="n">bundles</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">bundles</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ScriptBundle</span><span class="p">(</span><span class="s">&quot;~/bundles/jquery&quot;</span><span class="p">).</span><span class="n">Include</span><span class="p">(</span>
+                  <span class="s">&quot;~/Scripts/jquery-{version}.js&quot;</span><span class="p">));</span>
+
+      <span class="n">bundles</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ScriptBundle</span><span class="p">(</span><span class="s">&quot;~/bundles/modernizr&quot;</span><span class="p">).</span><span class="n">Include</span><span class="p">(</span>
+                  <span class="s">&quot;~/Scripts/modernizr-*&quot;</span><span class="p">));</span>
+
+      <span class="n">bundles</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ScriptBundle</span><span class="p">(</span><span class="s">&quot;~/bundles/semantic&quot;</span><span class="p">).</span><span class="n">Include</span><span class="p">(</span>
+                  <span class="s">&quot;~/Scripts/semantic.js&quot;</span><span class="p">));</span>
+
+      <span class="n">bundles</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">StyleBundle</span><span class="p">(</span><span class="s">&quot;~/Content/css&quot;</span><span class="p">).</span><span class="n">Include</span><span class="p">(</span><span class="s">&quot;~/Content/semantic.css&quot;</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p><i class="checkmark orange icon"></i> No seu projeto, crie um novo arquivo chamado <code>_Layout_SemanticUI.cshtml</code> dentro do folder <code>˜/Views/Shared</code>. Coloque o seguinte conteúdo no arquivo:</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>@ViewBag.Title<span class="nt">&lt;/title&gt;</span>
+    @Styles.Render(&quot;~/Content/css&quot;)
+    @Scripts.Render(&quot;~/bundles/modernizr&quot;)
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    @RenderBody()
+    @Scripts.Render(&quot;~/bundles/jquery&quot;)
+    @Scripts.Render(&quot;~/bundles/semantic&quot;)
+    @RenderSection(&quot;scripts&quot;, required: false)
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></div>
+
+<h3>Testando</h3>
+
+<p>Vamos criar um <em>Controller</em> para testar nossa instalação.</p>
+
+<p><i class="checkmark orange icon"></i> No seu projeto, dentro do folder <code>˜/Controllers</code> crie um arquivo chamado <code>SemanticController.cs</code> com uma <em>ação</em> <code>Index</code>:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">namespace</span> <span class="nn">MvcApplication1.Controllers</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">class</span> <span class="nc">SemanticController</span> <span class="p">:</span> <span class="n">Controller</span>
+  <span class="p">{</span>
+    <span class="k">public</span> <span class="n">ActionResult</span> <span class="nf">Index</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">View</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p><i class="checkmark orange icon"></i> Agora, crie um folder chamado <code>Semantic</code> dentro do folder <code>~/Views</code>.
+<i class="checkmark orange icon"></i> Dentro do folder <code>~/Views/Semantic</code> crie um arquivo <code>Index.cshtml</code> com o seguinte conteúdo:</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html">@{
+    Layout = &quot;~/Shared/_Layout_SemanticUI.cshtml&quot;;
+}
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;ui icon message green&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">&quot;html5 icon&quot;</span><span class="nt">&gt;&lt;/i&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;header&quot;</span><span class="nt">&gt;</span>
+      Olá Semantic-UI!
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Agora você está pronto para desenvolver suas UIs com SemanticUI framework<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></div>
+
+<p><i class="checkmark orange icon"></i> Agora basta rodar a sua aplicação em modo <em>Debug</em> e apontar o seu navegador para o contexto <code>/Semantic</code>.</p>
+
+<p><img src="/img/tutorial-nuget/SemanticUI.test.page.png" alt="Semantic UI pagina de teste" class="ui image" /></p>
+
+<blockquote>
+  <p>Ao ver essa mensagem estilizada você acaba de validar sua instalação com sucesso.</p>
+</blockquote>
+
+<h2>Adicionando Semantic-UI via NuGet Package</h2>
+
+<p>Suponha agora que você queira utilizar o Semantic-UI em todas as novas aplicação Web que vá desenvolver. Você pode repetir todos os passos acima a cada novo projeto ou então pode escrever um NuGet Package para automatizar e padronizar essa tarefa para você. Mais ainda, você pode disponibilizar esse instalador para outros interessados utilizarem também.</p>
+
+<p><em>Basicamente</em>, um NuGet Package é um conjunto de arquivos (<em>XML, CSS, HTML, JS</em>, código fonte, etc.) que são baixados de um repositório e copiados para dentro de seu projeto, em folder específicos. Além disso, é possível realizar algumas transformações nesses arquivos no momento da cópia, para ajustar algumas configurações ao projeto de destino.</p>
+
+<h3>Criando um NuGet Package</h3>
+
+<p><i class="checkmark orange icon"></i> Faça o <a href="http://docs.nuget.org/docs/start-here/installing-nuget">download do NuGet Command-Line Utility</a> (<code>nuget.exe</code>) e salve em uma pasta local. Ajuste o <em>PATH</em> do Windows e inclua o diretório onde está o nuget.exe.</p>
+
+<p><i class="checkmark orange icon"></i> Crie um novo diretório para seu pacote. Por exemplo, <code>C:\projetos\nuget\semantic</code></p>
+
+<p><i class="checkmark orange icon"></i> De dentro do diretório do seu novo pacote, rode o comando <code>nuget spec</code>:</p>
+
+<div class="highlight"><pre><code class="language-batch" data-lang="batch">C:\Projetos\NuGet\semantic<span class="p">&gt;</span><span class="n">nuget</span> spec
+Created <span class="s1">&#39;Package.nuspec&#39;</span> successfully.
+
+C:\Projetos\NuGet\semantic&gt;</code></pre></div>
+
+<p><i class="checkmark orange icon"></i> Abra o arquivo <em>Package.nuspec</em> em um editor de textos e altere conforme os nomes que você queira dar ao seu pacote.</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="lineno"> 1</span> <span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="lineno"> 2</span> <span class="nt">&lt;package</span> <span class="nt">&gt;</span>
+<span class="lineno"> 3</span>   <span class="nt">&lt;metadata&gt;</span>
+<span class="lineno"> 4</span>     <span class="nt">&lt;id&gt;</span>SemanticU<span class="nt">&lt;/id&gt;</span>
+<span class="lineno"> 5</span>     <span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="lineno"> 6</span>     <span class="nt">&lt;authors&gt;</span>nandotorres<span class="nt">&lt;/authors&gt;</span>
+<span class="lineno"> 7</span>     <span class="nt">&lt;owners&gt;</span>nandotorres<span class="nt">&lt;/owners&gt;</span>
+<span class="lineno"> 8</span>     <span class="nt">&lt;licenseUrl&gt;</span>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE<span class="nt">&lt;/licenseUrl&gt;</span>
+<span class="lineno"> 9</span>     <span class="nt">&lt;projectUrl&gt;</span>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE<span class="nt">&lt;/projectUrl&gt;</span>
+<span class="lineno">10</span>     <span class="nt">&lt;iconUrl&gt;</span>http://ICON_URL_HERE_OR_DELETE_THIS_LINE<span class="nt">&lt;/iconUrl&gt;</span>
+<span class="lineno">11</span>     <span class="nt">&lt;requireLicenseAcceptance&gt;</span>false<span class="nt">&lt;/requireLicenseAcceptance&gt;</span>
+<span class="lineno">12</span>     <span class="nt">&lt;description&gt;</span>Package description<span class="nt">&lt;/description&gt;</span>
+<span class="lineno">13</span>     <span class="nt">&lt;releaseNotes&gt;</span>Summary of changes made in this release of the package.<span class="nt">&lt;/releaseNotes&gt;</span>
+<span class="lineno">14</span>     <span class="nt">&lt;copyright&gt;</span>Copyright 2014<span class="nt">&lt;/copyright&gt;</span>
+<span class="lineno">15</span>     <span class="nt">&lt;tags&gt;</span>Tag1 Tag2<span class="nt">&lt;/tags&gt;</span>
+<span class="lineno">16</span>     <span class="nt">&lt;dependencies&gt;</span>
+<span class="lineno">17</span>       <span class="nt">&lt;dependency</span> <span class="na">id=</span><span class="s">&quot;WebActivatorEx&quot;</span> <span class="na">version=</span><span class="s">&quot;2.0.0&quot;</span> <span class="nt">/&gt;</span>
+<span class="lineno">18</span>       <span class="nt">&lt;dependency</span> <span class="na">id=</span><span class="s">&quot;jQuery&quot;</span> <span class="nt">/&gt;</span>
+<span class="lineno">19</span>     <span class="nt">&lt;/dependencies&gt;</span>
+<span class="lineno">20</span>   <span class="nt">&lt;/metadata&gt;</span>
+<span class="lineno">21</span> <span class="nt">&lt;/package&gt;</span></code></pre></div>
+
+<blockquote>
+  <p>Muita atenção para a dependência WebActivatorEx (linha 17)</p>
+</blockquote>
+
+<p><i class="checkmark orange icon"></i> Crie uma pasta <code>content</code> dentro do diretório do seu pacote. Obrigatóriamente deve haver uma pasta com esse nome. Nela você irá criar a estrutura de arquivos que deve ser copiada para a raíz do projeto de destino no momento da instalação do pacote.</p>
+
+<div class="highlight"><pre><code class="language-batch" data-lang="batch">C:\Projetos\NuGet\semantic<span class="p">&gt;</span><span class="n">dir</span>
+ Volume in drive C has no label.
+ Volume Serial Number is <span class="m">9</span>C<span class="m">14-4</span>D<span class="m">60</span>
+
+ Directory of C:\Projetos\NuGet\semantic
+
+<span class="m">07</span><span class="n">/31/2014</span>  <span class="m">07</span><span class="nl">:25</span> PM    <span class="p">&lt;</span><span class="n">DIR</span>&gt;          .
+<span class="m">07</span><span class="n">/31/2014</span>  <span class="m">07</span><span class="nl">:25</span> PM    <span class="p">&lt;</span><span class="n">DIR</span>&gt;          ..
+<span class="m">07</span><span class="n">/31/2014</span>  <span class="m">07</span><span class="nl">:25</span> PM    <span class="p">&lt;</span><span class="n">DIR</span><span class="p">&gt;</span>          <span class="n">content</span>
+<span class="m">07</span><span class="n">/31/2014</span>  <span class="m">07</span><span class="nl">:11</span> PM               <span class="m">777</span> Package.nuspec
+               <span class="m">1</span> File(s)            <span class="m">777</span> bytes
+               <span class="m">3</span> Dir(s)  <span class="m">16</span><span class="p">,</span><span class="m">754</span><span class="p">,</span><span class="m">630</span><span class="p">,</span><span class="m">656</span> bytes free
+
+C:\Projetos\NuGet\semantic&gt;</code></pre></div>
+
+<p><i class="checkmark orange icon"></i> Dentro da pasta <code>content</code>, crie a estrutura correta para conter os arquivos <em>CSS</em>, <em>Javascript</em> e <em>fontes</em>. Considere que seu diretório <code>content</code> seria a raiz do projeto ASP.NET MVC de destino. Este é o resultado:</p>
+
+<p><img src="/img/tutorial-nuget/NuGet-filestructure.1.png" class="ui image" /></p>
+
+<blockquote>
+  <p>Não confunda a pasta content, padrão de um pacote NuGet, com a pasta Content interna, que é onde estão os CSS do nosso projeto ASP.NET MVC</p>
+</blockquote>
+
+<p><i class="checkmark orange icon"></i> Copie para essas pastas os arquivos correspondentes, contidos no diretório <code>packaged</code> do framework Semantic-UI que você baixou:</p>
+
+<pre>
+semantic.css    --------&gt; C:\Projetos\NuGet\semantic\content\Content\semantic.css
+semantic.js     --------&gt; C:\Projetos\NuGet\semantic\content\Scripts\semantic.js
+fonts\*.*       --------&gt; C:\Projetos\NuGet\semantic\content\fonts
+</pre>
+
+<p>Até aqui, se o usuário instalar o seu pacote ele terá os arquivos CSS, Javascript e de fontes incluidos em seu projeto. Entretanto, o usuário ainda terá que ajustar o <code>BundleConfig.cs</code> para incluir esses arquivos. Vamos criar uma classe chamada <code>SemanticStart.cs</code> e colocá-la no diretório <code>~App_start</code> do projeto. Assim que o projeto for carregado essa classe incluirá nossos arquivos na tabela de Bundles da aplicação.</p>
+
+<p><i class="checkmark orange icon"></i> Crie o diretório <code>App_start</code> dentro de <code>C:\Projetos\NuGet\semantic\content\</code> e crie um novo arquivo <code>SemanticStart.cs.pp</code> dentro dessa nova pasta.</p>
+
+<blockquote>
+  <p>Todos os arquivos nos quais quisermos fazer algum tipo de processamento em tempo de instalação, precisam ter a extensão <em>.pp</em> após a extensão correta do arquivo.</p>
+</blockquote>
+
+<p><i class="checkmark orange icon"></i> Edite o arquivo <code>SemanticStart.cs.pp</code> com o seguinte conteúdo:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="lineno"> 1</span> <span class="k">using</span> <span class="nn">System.Web</span><span class="p">;</span>
+<span class="lineno"> 2</span> <span class="k">using</span> <span class="nn">System.Web.Optimization</span><span class="p">;</span>
+<span class="lineno"> 3</span> 
+<span class="lineno"> 4</span> <span class="na">[assembly: WebActivatorEx.PostApplicationStartMethod(</span>
+<span class="lineno"> 5</span> <span class="na">     typeof($rootnamespace$.SemanticStart), &quot;PostStart&quot;)]</span>
+<span class="lineno"> 6</span> 
+<span class="lineno"> 7</span> <span class="k">namespace</span> <span class="err">$</span><span class="nn">rootnamespace</span><span class="err">$</span>
+<span class="lineno"> 8</span> <span class="p">{</span>
+<span class="lineno"> 9</span>     <span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">SemanticUIStart</span>
+<span class="lineno">10</span>     <span class="p">{</span>
+<span class="lineno">11</span>         <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">PostStart</span><span class="p">()</span>
+<span class="lineno">12</span>         <span class="p">{</span>
+<span class="lineno">13</span>             <span class="n">BundleTable</span><span class="p">.</span><span class="n">Bundles</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">ScriptBundle</span><span class="p">(</span><span class="s">&quot;~/bundles/semantic&quot;</span><span class="p">).</span>
+<span class="lineno">14</span> 			   <span class="n">Include</span><span class="p">(</span><span class="s">&quot;~/Scripts/semantic.js&quot;</span><span class="p">,</span>
+<span class="lineno">15</span> 			           <span class="s">&quot;~/Scripts/semantic.site.js&quot;</span><span class="p">));</span>
+<span class="lineno">16</span> 			   
+<span class="lineno">17</span>             <span class="n">BundleTable</span><span class="p">.</span><span class="n">Bundles</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">new</span> <span class="n">StyleBundle</span><span class="p">(</span><span class="s">&quot;~/Content/semantic&quot;</span><span class="p">).</span>
+<span class="lineno">18</span> 			   <span class="n">Include</span><span class="p">(</span><span class="s">&quot;~/Content/semantic.css&quot;</span><span class="p">,</span>
+<span class="lineno">19</span> 			           <span class="s">&quot;~/Content/semantic.site.css&quot;</span><span class="p">));</span>
+<span class="lineno">20</span>         <span class="p">}</span>
+<span class="lineno">21</span>     <span class="p">}</span>
+<span class="lineno">22</span> <span class="p">}</span></code></pre></div>
+
+<ul>
+	<li><code>linha 4</code> Registra nossa <em>Classe</em> <code>SemanticStart</code> para ser executada logo após o início (<code>PostStart</code>) da aplicação.</li>
+	<li><code>linha 5</code> A marcação <code>$rootnamespace</code> será substituida pelo <em>namespace</em> correto da aplicação do usuário.</li>
+</ul>
+
+<p>Agora vamos criar um <em>Layout Razor</em> padrão, que irá servir de base para todas as <em>Views</em> que quiserem utilizar os estilos definidos no Semantic-UI.</p>
+
+<p><i class="checkmark orange icon"></i> Mais uma vez, crie, no seu pacote, a estrutura correspondente ao local onde o arquivo deve ser copiado no projeto ASP.NET MVC. Nesse caso, crie a estrutura <code>Views\Shared</code> dentro de <code>C:\Projetos\NuGet\semantic\content\</code></p>
+
+<p><i class="checkmark orange icon"></i> Dentro do diretório <code>Shared</code> crie um novo arquivo chamado <code>_Layout_Semantic.cshtml</code></p>
+
+<p><img src="/img/tutorial-nuget/NuGet-filestructure.2.png" class="ui image" /></p>
+
+<p><i class="checkmark orange icon"></i> Edite o arquivo <code>_Layout_Semantic.cshtml</code> e inclua o código abaixo:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="p">&lt;!</span><span class="n">DOCTYPE</span> <span class="n">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="n">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="n">head</span><span class="p">&gt;</span>
+ <span class="p">&lt;</span><span class="n">meta</span> <span class="n">charset</span><span class="p">=</span><span class="s">&quot;utf-8&quot;</span> <span class="p">/&gt;</span>
+ <span class="p">&lt;</span><span class="n">meta</span> <span class="n">name</span><span class="p">=</span><span class="s">&quot;viewport&quot;</span> <span class="n">content</span><span class="p">=</span><span class="s">&quot;width=device-width&quot;</span> <span class="p">/&gt;</span>
+ <span class="p">&lt;</span><span class="n">title</span><span class="p">&gt;</span><span class="n">@ViewBag</span><span class="p">.</span><span class="n">Title</span><span class="p">&lt;/</span><span class="n">title</span><span class="p">&gt;</span>
+ <span class="n">@Styles</span><span class="p">.</span><span class="n">Render</span><span class="p">(</span><span class="s">&quot;~/Content/css&quot;</span><span class="p">)</span>
+ <span class="n">@Styles</span><span class="p">.</span><span class="n">Render</span><span class="p">(</span><span class="s">&quot;~/Content/semantic&quot;</span><span class="p">)</span>
+<span class="p">&lt;/</span><span class="n">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="n">body</span><span class="p">&gt;</span>
+ <span class="n">@RenderBody</span><span class="p">()</span>
+ <span class="n">@Scripts</span><span class="p">.</span><span class="n">Render</span><span class="p">(</span><span class="s">&quot;~/bundles/jquery&quot;</span><span class="p">)</span>
+ <span class="n">@Scripts</span><span class="p">.</span><span class="n">Render</span><span class="p">(</span><span class="s">&quot;~/bundles/semantic&quot;</span><span class="p">)</span>
+ <span class="n">@RenderSection</span><span class="p">(</span><span class="s">&quot;scripts&quot;</span><span class="p">,</span> <span class="n">required</span><span class="p">:</span> <span class="k">false</span><span class="p">)</span>
+<span class="p">&lt;/</span><span class="n">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="n">html</span><span class="p">&gt;</span></code></pre></div>
+
+<p><i class="checkmark orange icon"></i> Hora de empacotar tudo. Na raíz do seu pacote, onde se localiza o seu arquivo <code>Package.nuspec</code> rode o seguinte comando:</p>
+
+<div class="highlight"><pre><code class="language-batch" data-lang="batch">C:\Projetos\NuGet\semantic<span class="p">&gt;</span><span class="n">nuget</span> pack
+Attempting to build package from <span class="s1">&#39;Package.nuspec&#39;</span>.
+Successfully created package <span class="s1">&#39;C:\Projetos\NuGet\semantic\Package.1.0.0.nupkg&#39;</span>.</code></pre></div>
+
+<p><i class="checkmark orange icon"></i> Sucesso! Você acabou de criar um NuGet package. Se você quiser compartilhá-lo no repositório oficial do NuGet para que outros usuários possam usar, você precisará criar uma conta e fazer o upload do arquivo <code>Package.1.0.0.nupkg</code>.</p>
+
+<blockquote>
+  <p>O pacote criado nesse tutorial está <a href="http://nuget.org/packages/SemanticUI.ASP.NET.MVC">disponível para instalação no portal NuGet</a>. O código fonte do pacote está <a href="https://github.com/nandotorres/SemanticUI.ASP.NET.MVC">disponível no github</a>.</p>
+</blockquote>
+
+
+  </article>
+
+</div>
+
+<div id="disqus_thread"></div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrap">
+
+    <h2 class="footer-heading">nandotorres.com</h2>
+
+    <div class="footer-col-1 column">
+      <ul>
+        <li>nandotorres.com</li>
+        <li><a href="mailto:nandotorres@gmail.com">nandotorres@gmail.com</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col-2 column">
+      <ul>
+        <li>
+          <a href="https://github.com/nandotorres">
+            <span class="icon github">
+              <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#C2C2C2" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            <span class="username">nandotorres</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/nandotorres77">
+            <span class="icon twitter">
+              <svg version="1.1" class="twitter-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill="#C2C2C2" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809
+                c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27
+                c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767
+                c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206
+                C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271
+                c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469
+                c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/>
+              </svg>
+            </span>
+            <span class="username">nandotorres77</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer-col-3 column">
+      <p class="text">Textos e tutoriais sobre Javascript, ASP.Net MVC, Ruby on Rails, Cloud e DevOps.</p>
+    </div>
+
+  </div>
+
+</footer>
+
+
+    </body>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52903781-1', 'auto');
+	ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'nandotorrescom'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<script language="javascript" src="/js/jquery-1.11.1.min.js"></script>
+<script language="javascript" src="/js/semantic.min.js"></script>
+<script>
+$(function(){
+});
+</script>
+</html>

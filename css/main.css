@@ -23,6 +23,15 @@ em {
 	font-weight: 500;
 }
 
+cite {
+	font-style: normal;
+	font-family: serif;
+	font-weight: 100;
+	font-size: 19px;
+	line-height: normal;
+	color: #999999;
+}
+
 a         { color: #2a7ae2; text-decoration: none; }
 a:hover   { color: #000; text-decoration: underline; }
 a:visited { color: #205caa; }
