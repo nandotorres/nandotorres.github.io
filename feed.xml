@@ -5,9 +5,84 @@
     <description>Textos e tutoriais sobre Javascript, ASP.Net MVC, Ruby on Rails, Cloud e DevOps.</description>
     <link>http://nandotorres.com/</link>
     <atom:link href="http://nandotorres.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 31 Jul 2014 20:35:55 -0300</pubDate>
-    <lastBuildDate>Thu, 31 Jul 2014 20:35:55 -0300</lastBuildDate>
+    <pubDate>Sat, 02 Aug 2014 13:48:48 -0300</pubDate>
+    <lastBuildDate>Sat, 02 Aug 2014 13:48:48 -0300</lastBuildDate>
     <generator>Jekyll v2.1.0</generator>
+    
+      <item>
+        <title>Resolvendo &quot;Error occurred during LocalDB instance startup&amp;#58; SQL Server process failed to start&quot;</title>
+        <description>&lt;p&gt;Hoje estava fazendo alguns testes com uma aplicação &lt;em&gt;Web ASP.NET MVC 4&lt;/em&gt;. Após escrever alguns modelos simples e definir o &lt;em&gt;Data Source&lt;/em&gt;, habilitei migrações em meu projeto:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-batch&quot; data-lang=&quot;batch&quot;&gt;PM&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Enable&lt;/span&gt;-Migrations -ContextTypeName eTasks.Web.Infrastructure.TasksDb
+Checking &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; the context targets an existing database...
+Code First Migrations enabled &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; project eTasks.Web.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Em seguida, como trivial, defini alguns &lt;em&gt;Seed&lt;/em&gt;s para popular algumas tabelas e rodei o comando para atualizar meu esquema de banco de dados. Nesta primeira execução, espera-se criar o novo esquema, as tabelas do modelo e, em seguida, populá-las.&lt;/p&gt;
+
+&lt;h2&gt;Problema ao executar Update-Database&lt;/h2&gt;
+
+&lt;p&gt;Ao executar o comando para atualizar meu esquema, me deparei com o seguinte erro:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-batch&quot; data-lang=&quot;batch&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; PM&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;-database -Verbose
+&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt; Using StartUp project &lt;span class=&quot;s1&quot;&gt;&amp;#39;eTasks.Web&amp;#39;&lt;/span&gt;.
+&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt; Using NuGet project &lt;span class=&quot;s1&quot;&gt;&amp;#39;eTasks.Web&amp;#39;&lt;/span&gt;.
+&lt;span class=&quot;lineno&quot;&gt;4&lt;/span&gt; Specify the &lt;span class=&quot;s1&quot;&gt;&amp;#39;-Verbose&amp;#39;&lt;/span&gt; flag to view the SQL statements being applied to the target database.
+&lt;span class=&quot;lineno&quot;&gt;5&lt;/span&gt; Target database is: &lt;span class=&quot;s1&quot;&gt;&amp;#39;eTasks&amp;#39;&lt;/span&gt; (DataSource: (LocalDb)\v&lt;span class=&quot;m&quot;&gt;11&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; Provider: System.Data.SqlClient&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; Origin: Configuration).
+&lt;span class=&quot;lineno&quot;&gt;6&lt;/span&gt; System.Data.SqlClient.SqlException (&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;x&lt;span class=&quot;m&quot;&gt;80131904&lt;/span&gt;): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SQL Network Interfaces&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; error: &lt;span class=&quot;m&quot;&gt;50&lt;/span&gt; - Local Database Runtime error occurred. Error occurred during LocalDB instance startup: SQL Server process failed to start.)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Repare que na mensagem de erro que tive. Na linha 5 vemos que a minha instância é v11.0. Se você usa o SQL Express 2014, talvez o seu seja v12.0. Atente a isso para os próximos passos.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Resolvendo o problema com LocalDB&lt;/h2&gt;
+
+&lt;p&gt;&lt;i class=&quot;checkmark orange icon&quot;&gt;&lt;/i&gt; Abra uma janela de prompt &lt;em&gt;como Administrador&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;i class=&quot;checkmark orange icon&quot;&gt;&lt;/i&gt; Crie a instância v11.0:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-batch&quot; data-lang=&quot;batch&quot;&gt;C:\&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqllocaldb&lt;/span&gt; create v&lt;span class=&quot;m&quot;&gt;11&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
+LocalDB instance &lt;span class=&quot;s2&quot;&gt;&amp;quot;v11.0&amp;quot;&lt;/span&gt; created with version &lt;span class=&quot;m&quot;&gt;11&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Lembre-se de usar a instância certa no seu caso.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;i class=&quot;checkmark orange icon&quot;&gt;&lt;/i&gt; Inicie a instância:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-batch&quot; data-lang=&quot;batch&quot;&gt;C:\&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqllocaldb&lt;/span&gt; start v&lt;span class=&quot;m&quot;&gt;11&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;
+LocalDB instance &lt;span class=&quot;s2&quot;&gt;&amp;quot;v11.0&amp;quot;&lt;/span&gt; started.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;i class=&quot;checkmark orange icon&quot;&gt;&lt;/i&gt; Agora, de volta ao Visual Studio, vamos rodar novamente o &lt;code&gt;Update-Database&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-batch&quot; data-lang=&quot;batch&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 1&lt;/span&gt; PM&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update&lt;/span&gt;-database -Verbose
+&lt;span class=&quot;lineno&quot;&gt; 2&lt;/span&gt; Using StartUp project &lt;span class=&quot;s1&quot;&gt;&amp;#39;eTasks.Web&amp;#39;&lt;/span&gt;.
+&lt;span class=&quot;lineno&quot;&gt; 3&lt;/span&gt; Using NuGet project &lt;span class=&quot;s1&quot;&gt;&amp;#39;eTasks.Web&amp;#39;&lt;/span&gt;.
+&lt;span class=&quot;lineno&quot;&gt; 4&lt;/span&gt; Specify the &lt;span class=&quot;s1&quot;&gt;&amp;#39;-Verbose&amp;#39;&lt;/span&gt; flag to view the SQL statements being applied to the target database.
+&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt; Target database is: &lt;span class=&quot;s1&quot;&gt;&amp;#39;eTasks&amp;#39;&lt;/span&gt; (DataSource: (LocalDb)\v&lt;span class=&quot;m&quot;&gt;11&lt;/span&gt;.&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; Provider: System.Data.SqlClient&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; Origin: Configuration).
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt; No pending explicit migrations.
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt; Applying automatic migration: &lt;span class=&quot;m&quot;&gt;201408021605135&lt;/span&gt;_AutomaticMigration.
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;//&lt;/span&gt; linhas omitidas para simplificar....
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt; Running Seed method.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Repare nas linhas 5 e 7. No seu &lt;em&gt;Solution Explorer&lt;/em&gt; clique no folder &lt;em&gt;App_Data&lt;/em&gt;. Lembre-se de marcar a opção &lt;em&gt;Show all files&lt;/em&gt; e dar um &lt;em&gt;Refresh&lt;/em&gt; na solução. Problema resolvido?&lt;/p&gt;
+</description>
+        <pubDate>Sat, 02 Aug 2014 00:00:00 -0300</pubDate>
+        <link>http://nandotorres.com/problemas/2014/08/02/Resolvendo-Error-occurred-during-LocalDB-instance-startup-SQL-Server-process-failed-to-start.html</link>
+        <guid isPermaLink="true">http://nandotorres.com/problemas/2014/08/02/Resolvendo-Error-occurred-during-LocalDB-instance-startup-SQL-Server-process-failed-to-start.html</guid>
+        
+        <category>ASP.NET</category>
+        
+        <category>NuGet</category>
+        
+        <category>Migrations</category>
+        
+        <category>LocalDB</category>
+        
+        
+        <category>problemas</category>
+        
+      </item>
     
       <item>
         <title>Livro gratuito&amp;#58; Building Cloud Apps with Microsoft Azure</title>
